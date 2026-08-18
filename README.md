@@ -1,66 +1,66 @@
 # Open CI/CD Pipeline
 
-## Descricao
+## Description
 
-Este projeto nasceu como a infraestrutura de pipeline principal desenvolvida para uma grande operadora de telecomunicacoes mobile. Originalmente projetado para suportar o alto volume de entregas e testes dos servicos criticos da empresa, o projeto foi refatorado, desvinculado de qualquer regra de negocio sensivel ou dados proprietarios, e agora e disponibilizado como open source.
+This project originated as the core pipeline infrastructure developed for a major CRM Software company. Originally designed to support the high volume of deliveries and testing for their critical enterprise services, the project has been refactored, stripped of any sensitive business rules or proprietary data, and is now released as open source.
 
-O objetivo deste repositorio e fornecer um boilerplate limpo, escalavel e seguro para implementacao de pipelines de Integracao Continua e Entrega Continua (CI/CD) para aplicacoes Node.js, empacotadas via Docker e orquestradas pelo GitHub Actions.
+The goal of this repository is to provide a clean, scalable, and secure boilerplate for implementing Continuous Integration and Continuous Deployment (CI/CD) pipelines for Node.js applications, containerized via Docker and orchestrated by GitHub Actions.
 
-## Tecnologias e Ferramentas
+## Technologies & Tools
 
 - Backend: Node.js (Express)
-- Testes: Jest e Supertest
-- Containerizacao: Docker (baseado em Alpine Linux)
-- Automatizacao e CI/CD: GitHub Actions
+- Testing: Jest and Supertest
+- Containerization: Docker (Alpine Linux based)
+- Automation & CI/CD: GitHub Actions
 
-## Como a Pipeline Funciona
+## How the Pipeline Works
 
-O fluxo de automacao foi desenhado para garantir a qualidade do codigo antes de qualquer promocao de ambiente. Ele atua em duas etapas principais:
+The automation flow was designed to ensure code quality before any environment promotion. It operates in two main stages:
 
-1. Integracao Continua (CI): A cada Push ou Pull Request para a branch `main`, o GitHub Actions inicializa um ambiente limpo, instala as dependencias e executa a bateria completa de testes unitarios. Se algum teste falhar, a pipeline bloqueia o fluxo.
-2. Entrega Continua (CD): Se a etapa de testes passar sem erros durante um evento de Push, a esteira compila uma nova imagem Docker da aplicacao e faz o push automatico para o registry de containers configurado (Docker Hub). A imagem e tagueada tanto como `latest` quanto com o SHA do commit (para permitir a facil reversao de versoes, se necessario).
+1. Continuous Integration (CI): On every Push or Pull Request to the `main` branch, GitHub Actions initializes a clean environment, installs dependencies, and runs the full suite of unit tests. If any test fails, the pipeline blocks the workflow.
+2. Continuous Deployment (CD): If the testing stage passes without errors during a Push event, the pipeline builds a new Docker image of the application and automatically pushes it to the configured container registry (Docker Hub). The image is tagged both as `latest` and with the commit SHA (to allow for easy version rollbacks if necessary).
 
-## Instrucoes de Uso (Local)
+## Usage Instructions (Local)
 
-### Pre-requisitos
-- Node.js (versao 20 ou superior)
-- Docker instalado na maquina
+### Prerequisites
+- Node.js (version 20 or higher)
+- Docker installed on your machine
 
-### Executando a Aplicacao via Node.js
+### Running the Application via Node.js
 
-Para rodar a aplicacao localmente:
+To run the application locally:
 
 ```bash
 npm install
 npm start
 ```
 
-O servidor iniciara na porta 3000. Para testar o funcionamento das rotas de integracao e saude, acesse:
+The server will start on port 3000. To test the integration and health routes, visit:
 - http://localhost:3000/
 - http://localhost:3000/health
 
-Para rodar a suite de testes unitarios:
+To run the unit test suite:
 
 ```bash
 npm test
 ```
 
-### Executando via Docker
+### Running via Docker
 
-Para construir a imagem e roda-la localmente utilizando containers:
+To build the image and run it locally using containers:
 
 ```bash
 docker build -t open-cicd-app .
 docker run -p 3000:3000 -d open-cicd-app
 ```
 
-## Configuracao da Pipeline (GitHub Secrets)
+## Pipeline Configuration (GitHub Secrets)
 
-Para que a pipeline do GitHub Actions consiga realizar a etapa de CD (push da imagem Docker), e obrigatorio configurar as seguintes secrets na aba Settings > Secrets and variables > Actions do seu repositorio:
+For the GitHub Actions pipeline to successfully perform the CD stage (pushing the Docker image), you must configure the following secrets in your repository under Settings > Secrets and variables > Actions:
 
-- `DOCKER_USERNAME`: Seu nome de usuario no Docker Hub.
-- `DOCKER_PASSWORD`: Sua senha ou Token de Acesso do Docker Hub.
+- `DOCKER_USERNAME`: Your Docker Hub username.
+- `DOCKER_PASSWORD`: Your Docker Hub password or Personal Access Token.
 
-## Licenca
+## License
 
-Distribuido sob a licenca MIT. Consulte o arquivo LICENSE para obter mais informacoes.
+Distributed under the MIT License. See the LICENSE file for more information.
